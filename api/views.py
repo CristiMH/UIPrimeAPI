@@ -40,3 +40,9 @@ def send_message(request):
         return Response({'details': 'Email sent successfully'}, status=status.HTTP_200_OK)
     except Exception as e:
         return Response({'error': 'Failed to send email. Try again later.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+
+    
+@api_view(["GET"])
+def keep_alive(request):
+    return Response({"message": "Service is awake!"})
