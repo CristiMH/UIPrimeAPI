@@ -10,7 +10,7 @@ from django_ratelimit.decorators import ratelimit
 
 MAX_EMAIL_LENGTH = 5000
 
-@ratelimit(key='ip', rate='3/m', method='POST', block=True)
+# @ratelimit(key='ip', rate='3/m', method='POST', block=True)
 @api_view(['POST'])
 @permission_classes([permissions.AllowAny])
 def send_message(request):
