@@ -14,7 +14,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["uiprime.online", "www.uiprime.online"]
+ALLOWED_HOSTS = ["uiprime.online", "www.uiprime.online", "http://localhost:5173/"]
 
 
 # Application definition
