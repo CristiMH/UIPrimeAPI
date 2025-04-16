@@ -86,8 +86,8 @@ CORS_ALLOW_ORIGINS = [
     "https://www.uiprime-4ly0.onrender.com/"
 ]
 CORS_ALLOWED_ORIGINS = [
-    "https://uiprime-4ly0.onrender.com/",
-    "https://www.uiprime-4ly0.onrender.com/"
+    "https://uiprime-4ly0.onrender.com",
+    "https://www.uiprime-4ly0.onrender.com"
 ]
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
