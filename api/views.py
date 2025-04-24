@@ -6,6 +6,8 @@ from django.core.mail import send_mail
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django_ratelimit.decorators import ratelimit
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 
 MAX_EMAIL_LENGTH = 5000
@@ -43,6 +45,6 @@ def send_message(request):
     
 
 
-@api_view(["GET"])
-def keep_alive(request):
-    return Response({"message": "Service is awake!"})
+@csrf_exempt
+def health_check(request):
+    return JsonResponse({"status": "ok"})
