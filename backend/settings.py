@@ -80,15 +80,15 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ALLOW_ALL_ORIGINS = False
-CORS_ALLOW_ORIGINS = [
-    "https://uiprime.online/",
-    "https://www.uiprime.online/"
-]
-CORS_ALLOWED_ORIGINS = [
-    "https://uiprime.online",
-    "https://www.uiprime.online"
-]
+CORS_ALLOW_ALL_ORIGINS = True
+# CORS_ALLOW_ORIGINS = [
+#     "https://uiprime.online/",
+#     "https://www.uiprime.online/"
+# ]
+# CORS_ALLOWED_ORIGINS = [
+#     "https://uiprime.online",
+#     "https://www.uiprime.online"
+# ]
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
 CORS_ALLOW_HEADERS = ["*"]
