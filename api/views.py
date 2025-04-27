@@ -67,13 +67,10 @@ class ChatAPIView(APIView):
         if not query:
             return Response({"error": "No query provided."}, status=status.HTTP_400_BAD_REQUEST)
 
-        # 1. Embed the user query
         query_vector = embedder.encode(query).tolist()
 
-        # 2. Search Pinecone
         search_response = index.query(vector=query_vector, top_k=5, include_metadata=True)
 
-        # 3. Extract results
         results = []
         for match in search_response.get('matches', []):
             text = match.get('metadata', {}).get('text', '')
