@@ -8,7 +8,11 @@ from django.core.exceptions import ValidationError
 from django_ratelimit.decorators import ratelimit
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-
+from rest_framework.views import APIView
+from dotenv import load_dotenv
+from sentence_transformers import SentenceTransformer
+from pinecone import Pinecone
+import os
 
 MAX_EMAIL_LENGTH = 5000
 
@@ -48,3 +52,35 @@ def send_message(request):
 @csrf_exempt
 def health_check(request):
     return JsonResponse({"status": "ok"})
+
+load_dotenv()
+
+embedder = SentenceTransformer('sentence-transformers/distiluse-base-multilingual-cased-v2')
+
+pc = Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
+index = pc.Index(os.getenv("PINECONE_INDEX"))
+
+class ChatAPIView(APIView):
+    def post(self, request):
+        query = request.data.get("query", "")
+        
+        if not query:
+            return Response({"error": "No query provided."}, status=status.HTTP_400_BAD_REQUEST)
+
+        # 1. Embed the user query
+        query_vector = embedder.encode(query).tolist()
+
+        # 2. Search Pinecone
+        search_response = index.query(vector=query_vector, top_k=5, include_metadata=True)
+
+        # 3. Extract results
+        results = []
+        for match in search_response.get('matches', []):
+            text = match.get('metadata', {}).get('text', '')
+            score = match.get('score', 0)
+            results.append({
+                "text": text,
+                "score": score
+            })
+
+        return Response({"matches": results})
