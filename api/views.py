@@ -10,7 +10,6 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.views import APIView
 from dotenv import load_dotenv
-from sentence_transformers import SentenceTransformer
 from pinecone import Pinecone
 import os
 
@@ -46,26 +45,32 @@ def send_message(request):
         return Response({'details': 'Email sent successfully'}, status=status.HTTP_200_OK)
     except Exception as e:
         return Response({'error': 'Failed to send email. Try again later.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-    
-
 
 @csrf_exempt
 def health_check(request):
     return JsonResponse({"status": "ok"})
 
+# 🔥 IMPORTANT: only load Pinecone client here (small memory, it's OK)
 load_dotenv()
-
-embedder = SentenceTransformer('sentence-transformers/distiluse-base-multilingual-cased-v2')
-
 pc = Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
 index = pc.Index(os.getenv("PINECONE_INDEX"))
 
+# 🔥 GLOBAL model = None at startup
+embedder = None
+
 class ChatAPIView(APIView):
     def post(self, request):
+        global embedder
+        
         query = request.data.get("query", "")
         
         if not query:
             return Response({"error": "No query provided."}, status=status.HTTP_400_BAD_REQUEST)
+
+        # 🔥 Lazy load the model when first query comes
+        if embedder is None:
+            from sentence_transformers import SentenceTransformer
+            embedder = SentenceTransformer('sentence-transformers/distiluse-base-multilingual-cased-v2')
 
         query_vector = embedder.encode(query).tolist()
 
