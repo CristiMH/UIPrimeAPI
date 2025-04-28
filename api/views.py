@@ -61,6 +61,10 @@ embedder = None
 class ChatAPIView(APIView):
     def post(self, request):
         global embedder
+
+        print("DEBUG - PINECONE_API_KEY:", os.getenv("PINECONE_API_KEY"))
+        print("DEBUG - PINECONE_INDEX:", os.getenv("PINECONE_INDEX"))
+        print("DEBUG - INDEX LIST:", pc.list_indexes().names())
         
         query = request.data.get("query", "")
         
