@@ -10,16 +10,12 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.views import APIView
 from dotenv import load_dotenv
-from pinecone import Pinecone
+from openai import OpenAI
 import os
-from functools import lru_cache
 
 MAX_EMAIL_LENGTH = 5000
 
-@lru_cache(maxsize=1)
-def get_model():
-    from sentence_transformers import SentenceTransformer
-    return SentenceTransformer('all-MiniLM-L6-v2')
+load_dotenv()
 
 @ratelimit(key='ip', rate='3/m', method='POST', block=True)
 @api_view(['POST'])
@@ -56,13 +52,26 @@ def send_message(request):
 def health_check(request):
     return JsonResponse({"status": "ok"})
 
-load_dotenv()
+###################################################################
 
-if not os.getenv("PINECONE_INDEX"):
-    raise RuntimeError("PINECONE_INDEX not set in environment.")
+openai_api_key = os.getenv("OPEN_AI_API")
+if not openai_api_key:
+    raise RuntimeError("OPEN_AI_API not set in environment.")
 
-pc = Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
-index = pc.Index(os.getenv("PINECONE_INDEX"))
+# Initialize OpenAI client
+client = OpenAI(api_key=openai_api_key)
+
+# Static system prompt (customize as needed)
+SYSTEM_PROMPT = """
+You are a helpful assistant for the UIPrime website. Only answer based on this information:
+
+- UIPrime is a web design agency focused on high-performance business websites.
+- We build responsive, SEO-optimized, and custom-branded websites.
+- We offer services like branding, UI/UX, SEO, and performance optimization.
+- You can contact us at contact@uiprime.online.
+
+If the user asks about something unrelated, respond with: "Sorry, I can only answer questions about UIPrime."
+"""
 
 class ChatAPIView(APIView):
     def post(self, request):
@@ -71,18 +80,19 @@ class ChatAPIView(APIView):
         if not query:
             return Response({"error": "No query provided."}, status=status.HTTP_400_BAD_REQUEST)
 
-        model = get_model()
-        query_vector = model.encode(query).tolist()
+        try:
+            response = client.chat.completions.create(
+                model="gpt-4o-mini",
+                messages=[
+                    {"role": "system", "content": SYSTEM_PROMPT},
+                    {"role": "user", "content": query}
+                ]
+            )
+            answer = response.choices[0].message.content
+            return Response({"answer": answer}, status=status.HTTP_200_OK)
 
-        search_response = index.query(vector=query_vector, top_k=5, include_metadata=True)
-
-        results = []
-        for match in search_response.get('matches', []):
-            text = match.get('metadata', {}).get('text', '')
-            score = match.get('score', 0)
-            results.append({
-                "text": text,
-                "score": score
-            })
-
-        return Response({"matches": results})
+        except Exception as e:
+            return Response({
+                "error": "Failed to get response from OpenAI.",
+                "detail": str(e)
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
