@@ -12,8 +12,14 @@ from rest_framework.views import APIView
 from dotenv import load_dotenv
 from pinecone import Pinecone
 import os
+from functools import lru_cache
 
 MAX_EMAIL_LENGTH = 5000
+
+@lru_cache(maxsize=1)
+def get_model():
+    from sentence_transformers import SentenceTransformer
+    return SentenceTransformer('sentence-transformers/distiluse-base-multilingual-cased-v2')
 
 @ratelimit(key='ip', rate='3/m', method='POST', block=True)
 @api_view(['POST'])
@@ -50,33 +56,23 @@ def send_message(request):
 def health_check(request):
     return JsonResponse({"status": "ok"})
 
-# 🔥 IMPORTANT: only load Pinecone client here (small memory, it's OK)
 load_dotenv()
+
+if not os.getenv("PINECONE_INDEX"):
+    raise RuntimeError("PINECONE_INDEX not set in environment.")
+
 pc = Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
 index = pc.Index(os.getenv("PINECONE_INDEX"))
 
-# 🔥 GLOBAL model = None at startup
-embedder = None
-
 class ChatAPIView(APIView):
     def post(self, request):
-        global embedder
-
-        print("DEBUG - PINECONE_API_KEY:", os.getenv("PINECONE_API_KEY"))
-        print("DEBUG - PINECONE_INDEX:", os.getenv("PINECONE_INDEX"))
-        print("DEBUG - INDEX LIST:", pc.list_indexes().names())
-        
         query = request.data.get("query", "")
         
         if not query:
             return Response({"error": "No query provided."}, status=status.HTTP_400_BAD_REQUEST)
 
-        # 🔥 Lazy load the model when first query comes
-        if embedder is None:
-            from sentence_transformers import SentenceTransformer
-            embedder = SentenceTransformer('sentence-transformers/distiluse-base-multilingual-cased-v2')
-
-        query_vector = embedder.encode(query).tolist()
+        model = get_model()
+        query_vector = model.encode(query).tolist()
 
         search_response = index.query(vector=query_vector, top_k=5, include_metadata=True)
 
