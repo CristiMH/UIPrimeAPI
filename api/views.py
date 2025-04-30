@@ -19,7 +19,7 @@ MAX_EMAIL_LENGTH = 5000
 @lru_cache(maxsize=1)
 def get_model():
     from sentence_transformers import SentenceTransformer
-    return SentenceTransformer('sentence-transformers/distiluse-base-multilingual-cased-v2')
+    return SentenceTransformer('all-MiniLM-L6-v2')
 
 @ratelimit(key='ip', rate='3/m', method='POST', block=True)
 @api_view(['POST'])
