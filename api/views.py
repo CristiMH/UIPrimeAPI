@@ -10,6 +10,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.views import APIView
 from dotenv import load_dotenv
+import openai
 from openai import OpenAI
 import os
 
@@ -54,12 +55,9 @@ def health_check(request):
 
 ###################################################################
 
-openai_api_key = os.getenv("OPEN_AI_API")
-if not openai_api_key:
-    raise RuntimeError("OPEN_AI_API not set in environment.")
+openai.api_key = os.getenv("OPEN_AI_API")
 
-# Initialize OpenAI client
-client = OpenAI(api_key=openai_api_key)
+client = OpenAI() 
 
 # Static system prompt (customize as needed)
 SYSTEM_PROMPT = """
