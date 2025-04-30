@@ -10,7 +10,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.views import APIView
 from dotenv import load_dotenv
-import openai
+from openai import OpenAI
 import os
 
 MAX_EMAIL_LENGTH = 5000
@@ -54,9 +54,10 @@ def health_check(request):
 
 ###################################################################
 
-openai.api_key = os.getenv("OPENAI_API_KEY")
+# Initialize OpenAI client
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-# Static system prompt (customize as needed)
+# Static system prompt
 SYSTEM_PROMPT = """
 You are a helpful assistant for the UIPrime website. Only answer based on this information:
 
@@ -71,20 +72,18 @@ If the user asks about something unrelated, respond with: "Sorry, I can only ans
 class ChatAPIView(APIView):
     def post(self, request):
         query = request.data.get("query", "")
-        
+
         if not query:
             return Response({"error": "No query provided."}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            response = openai.chat.completions.create(
-                model="gpt-4o-mini",
-                messages=[
-                    {"role": "system", "content": SYSTEM_PROMPT},
-                    {"role": "user", "content": query}
-                ]
+            response = client.responses.create(
+                model="gpt-4o",
+                input=f"{SYSTEM_PROMPT}\nUser: {query}",
+                max_output_tokens=1000,
+                temperature=0.7
             )
-            answer = response.choices[0].message.content
-            return Response({"answer": answer}, status=status.HTTP_200_OK)
+            return Response({"answer": response.output_text}, status=status.HTTP_200_OK)
 
         except Exception as e:
             return Response({
