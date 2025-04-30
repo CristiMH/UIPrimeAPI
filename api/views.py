@@ -11,7 +11,6 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.views import APIView
 from dotenv import load_dotenv
 import openai
-from openai import OpenAI
 import os
 
 MAX_EMAIL_LENGTH = 5000
@@ -55,9 +54,7 @@ def health_check(request):
 
 ###################################################################
 
-openai.api_key = os.getenv("OPEN_AI_API")
-
-client = OpenAI() 
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 # Static system prompt (customize as needed)
 SYSTEM_PROMPT = """
@@ -79,7 +76,7 @@ class ChatAPIView(APIView):
             return Response({"error": "No query provided."}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            response = client.chat.completions.create(
+            response = openai.chat.completions.create(
                 model="gpt-4o-mini",
                 messages=[
                     {"role": "system", "content": SYSTEM_PROMPT},
