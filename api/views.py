@@ -54,13 +54,12 @@ def health_check(request):
 
 ###################################################################
 
-if not os.getenv("OPENAI_API_KEY"):
-    raise RuntimeError("OPENAI_API_KEY not defined")
+api_key = os.getenv("OPENAI_API_KEY")
+if not api_key:
+    client = None
+else:
+    client = OpenAI(api_key=api_key)
 
-# Initialize OpenAI client
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-
-# Static system prompt
 SYSTEM_PROMPT = """
 You are a helpful assistant for the UIPrime website. Only answer based on this information:
 
@@ -78,6 +77,9 @@ class ChatAPIView(APIView):
 
         if not query:
             return Response({"error": "No query provided."}, status=status.HTTP_400_BAD_REQUEST)
+        
+        if client is None:
+            return Response({"error": "OpenAI client not configured."}, status=500)
 
         try:
             chat_completion = client.chat.completions.create(
@@ -85,12 +87,15 @@ class ChatAPIView(APIView):
                     {"role": "system", "content": SYSTEM_PROMPT},
                     {"role": "user", "content": query}
                 ],
-                model="gpt-4o-mini"
+                model="gpt-3.5-turbo",
+                max_tokens=300
             )
-            return Response({"answer":  chat_completion.choices[0].message.content}, status=status.HTTP_200_OK)
+            return Response({
+                "query": query,
+                "answer": chat_completion.choices[0].message.content
+            }, status=status.HTTP_200_OK)
 
         except Exception as e:
             return Response({
-                "error": "Failed to get response from OpenAI.",
-                "detail": str(e)
+                "error": "Failed to get response from OpenAI."
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
