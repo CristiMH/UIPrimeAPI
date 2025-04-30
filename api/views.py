@@ -55,7 +55,7 @@ def health_check(request):
 ###################################################################
 
 # Initialize OpenAI client
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+client = OpenAI()
 
 # Static system prompt
 SYSTEM_PROMPT = """
@@ -78,10 +78,29 @@ class ChatAPIView(APIView):
 
         try:
             response = client.responses.create(
-                model="gpt-4o",
-                input=f"{SYSTEM_PROMPT}\nUser: {query}",
+                model="gpt-4o-mini",
+                input=[
+                    {
+                    "role": "system",
+                    "content": [
+                        {
+                        "type": "input_text",
+                        "text": f"{SYSTEM_PROMPT}\nUser: {query}"
+                        }
+                    ]
+                    }
+                ],
+                text={
+                    "format": {
+                    "type": "text"
+                    }
+                },
+                reasoning={},
+                tools=[],
+                temperature=1,
                 max_output_tokens=1000,
-                temperature=0.7
+                top_p=1,
+                store=True
             )
             return Response({"answer": response.output_text}, status=status.HTTP_200_OK)
 
