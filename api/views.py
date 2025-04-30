@@ -54,8 +54,11 @@ def health_check(request):
 
 ###################################################################
 
+if not os.getenv("OPENAI_API_KEY"):
+    raise RuntimeError("OPENAI_API_KEY not defined")
+
 # Initialize OpenAI client
-client = OpenAI()
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # Static system prompt
 SYSTEM_PROMPT = """
@@ -77,32 +80,14 @@ class ChatAPIView(APIView):
             return Response({"error": "No query provided."}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            response = client.responses.create(
-                model="gpt-4o-mini",
-                input=[
-                    {
-                    "role": "system",
-                    "content": [
-                        {
-                        "type": "input_text",
-                        "text": f"{SYSTEM_PROMPT}\nUser: {query}"
-                        }
-                    ]
-                    }
+            chat_completion = client.chat.completions.create(
+                messages=[
+                    {"role": "system", "content": SYSTEM_PROMPT},
+                    {"role": "user", "content": query}
                 ],
-                text={
-                    "format": {
-                    "type": "text"
-                    }
-                },
-                reasoning={},
-                tools=[],
-                temperature=1,
-                max_output_tokens=1000,
-                top_p=1,
-                store=True
+                model="gpt-4o-mini"
             )
-            return Response({"answer": response.output_text}, status=status.HTTP_200_OK)
+            return Response({"answer":  chat_completion.choices[0].message.content}, status=status.HTTP_200_OK)
 
         except Exception as e:
             return Response({
