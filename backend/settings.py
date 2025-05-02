@@ -10,10 +10,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ["www.uiprime.online", "uiprime.online", "uiprimeapi.onrender.com", "localhost"]
-
+ALLOWED_HOSTS = ["www.uiprime.online", "uiprime.online", "uiprimeapi.onrender.com", "localhost", "127.0.0.1"]
 
 # Application definition
 
@@ -78,17 +77,12 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ALLOW_ALL_ORIGINS = False
-CORS_ALLOW_ORIGINS = [
-    "http://localhost:3000/",
-    "https://uiprime.online/",
-    "https://www.uiprime.online/"
-]
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "https://uiprime.online",
-    "https://www.uiprime.online"
-]
+CORS_ALLOW_ALL_ORIGINS = True
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:3000",
+#     "https://uiprime.online",
+#     "https://www.uiprime.online"
+# ]
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
