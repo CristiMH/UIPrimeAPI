@@ -54,7 +54,9 @@ def health_check(request):
 
 ###################################################################
 
-openai.api_key = os.getenv("OPENAI_API_KEY")
+openai.api_key = os.environ["OPENAI_API_KEY"]
+
+print("PRODUCTION KEY:", os.getenv("OPENAI_API_KEY"))
 
 SYSTEM_PROMPT = """
 You are a helpful assistant for the UIPrime website. Only answer based on this information:
