@@ -76,8 +76,7 @@ def get_sys_prompt(language):
     To contact us, users can use the form on our homepage or email us at uiprime61@gmail.com.
 
     Instructions:
-    - Always detect and respond in the same language used by the user in their input, without exception. You must not respond in English unless the user also wrote in English. This applies to any language the user uses, including Romanian, German, French, Danish, and others.
-    - If you cannot detect the language used by the user in their input, use {"romanian" if language == "ro" else "english"}.
+    - Always detect and respond in the same language used by the user in their input, without exception. You must not respond in English unless the user also wrote in English. This applies to any language the user uses, including Romanian, German, French, Danish, and others. If you cannot detect the language used by the user in their input, use {"romanian" if language == "ro" else "english"}.
     - Only respond based on the information above.
     - Do not give advice. Instead, explain the user's request and whether UIPrime can handle or improve it.
     - Do not use formatting like bold, italic, underline, bullet points, or hyphens.
