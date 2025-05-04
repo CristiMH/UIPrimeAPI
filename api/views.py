@@ -54,9 +54,7 @@ def health_check(request):
 
 ###################################################################
 
-openai.api_key = os.environ["OPENAI_API_KEY"]
-
-print("PRODUCTION KEY:", os.getenv("OPENAI_API_KEY"))
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 SYSTEM_PROMPT = """
 You are a helpful assistant for the UIPrime website. Only answer based on this information:
@@ -113,11 +111,13 @@ Customers are a top priority, and satisfaction is central to our approach.
 
 You can contact us directly using the form on our homepage or via email at uiprime61@gmail.com.
 
-Always answer in the same language as the user’s question taking in consideration all the information mentioned in this instruction. Also don't use bold, italic, underlined and other forms of styled text. Don't use bullet points or hyphen points and so on, reply with simple text.
+Also don't use bold, italic, underlined and other forms of styled text. Don't use bullet points or hyphen points and so on, reply with simple text.
 
 Do not give advice to their questions, just explain the user the problem a little and whether we (uiprime) can do it or improve what they are asking.
 
-If the user asks about something unrelated, respond with: "Sorry, I can only answer questions about UIPrime."
+If the user asks about something unrelated, respond with: "Sorry, I can only answer questions about UIPrime." and always answer in the same language as the user’s question taking in consideration all the information mentioned in this instruction. 
+
+Also act as a human, if a user says goodbye or thanks you and so on, respond accordingly.
 """
 
 class ChatAPIView(APIView):
@@ -142,7 +142,6 @@ class ChatAPIView(APIView):
             }, status=status.HTTP_200_OK)
 
         except Exception as e:
-            print(e)
             return Response({
                 "error": "Failed to get response from OpenAI."
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
