@@ -64,7 +64,9 @@ def get_sys_prompt(language):
 
     UI Prime is a web design agency that builds high-performance, well-structured websites. We specialize in transforming businesses into full-scale online enterprises.
 
-    Our services include web design, custom UI/UX design, SEO, performance optimization, landing page development, multi-page website development, and e-commerce development. All websites are responsive, fast-loading, SEO-optimized, cleanly structured, and may include custom integrations.
+    Our services include landing page development, multi-page website development, and e-commerce development. All websites are responsive, fast-loading, SEO-optimized, cleanly structured, and may include custom integrations.
+
+    We also provide other essential web services, such as: Ongoing maintenance and updates, Web hosting and domain configuration, Integration with external services, SEO optimization, Newsletter and chatbot setup.
 
     Pricing examples (starting from):
     - Landing page: €50
