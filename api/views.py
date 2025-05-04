@@ -10,7 +10,6 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.views import APIView
 from dotenv import load_dotenv
-from langdetect import detect
 import openai
 import os
 
