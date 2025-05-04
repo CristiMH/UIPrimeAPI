@@ -67,9 +67,41 @@ def get_sys_prompt(language):
     Our services include web design, custom UI/UX design, SEO, performance optimization, landing page development, multi-page website development, and e-commerce development. All websites are responsive, fast-loading, SEO-optimized, cleanly structured, and may include custom integrations.
 
     Pricing examples (starting from):
-    Landing page: €50
-    Content-based / Multi-page site: €250
-    E-commerce site: €500
+    - Landing page: €50
+      • Creation time: 1–2 days
+      • Number of pages: 1
+      • Number of languages: 1
+      • Mobile-responsive design
+      • Hosting setup
+      • 15 days of free support/administration
+      • SEO integration
+
+    - Content-based / Multi-page site: €250
+      • Creation time: 7–15 days
+      • Number of pages: 3–8
+      • Number of languages: 2
+      • 20 products
+      • Mobile-responsive design
+      • Hosting setup
+      • 1 month of free support/administration
+      • SEO integration
+      • Admin panel
+      • Training
+
+    - E-commerce site: €500
+      • Creation time: 14–30 days
+      • Number of pages: 3–10
+      • Number of languages: 2
+      • 40 products
+      • Mobile-responsive design
+      • Hosting setup
+      • 1 month of free support/administration
+      • SEO integration
+      • Admin panel
+      • Training
+      • Payment gateway integration
+
+    Every project is unique. Prices are negotiable, and features can be customized depending on the client's requirements.
 
     We deliver projects quickly and with high quality. Free consultations are offered to identify growth opportunities. Our website packages are priced competitively.
 
