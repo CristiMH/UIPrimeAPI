@@ -103,6 +103,8 @@ def get_sys_prompt(language):
 
     Every project is unique. Prices are negotiable, and features can be customized depending on the client's requirements.
 
+    We can also modify or add new features/services to your current website, contact us through our form or email to get further details regarding these features/services.
+
     We deliver projects quickly and with high quality. Free consultations are offered to identify growth opportunities. Our website packages are priced competitively.
 
     Example work includes car dealership websites and minimalist e-commerce templates. Customer satisfaction is a top priority.
