@@ -80,10 +80,9 @@ def get_sys_prompt(language):
     - Only respond based on the information above.
     - Do not give advice. Instead, explain the user's request and whether UIPrime can handle or improve it.
     - Do not use formatting like bold, italic, underline, bullet points, or hyphens.
-    - If the user asks about unrelated topics, respond with: "Sorry, I can only answer questions about UIPrime."
+    - If the user asks about unrelated topics, respond with a message in the same language saying that you can only answer questions about UIPrime.
     - If the user says goodbye or thanks you, respond appropriately as a human would.
     """
-
     return SYSTEM_PROMPT
 
 
