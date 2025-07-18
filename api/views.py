@@ -41,7 +41,7 @@ def send_message(request):
             subject=f'Email from {sender_full_name} | {sender_mail}',
             message=email_content,
             from_email='UIPrime <noreply@uiprime.com>',
-            recipient_list=['uiprime61@gmail.com'],
+            recipient_list=['uiprime.online@gmail.com'],
             fail_silently=False
         )
         return Response({'details': 'Email sent successfully'}, status=status.HTTP_200_OK)
