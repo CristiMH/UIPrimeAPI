@@ -83,7 +83,6 @@ def get_sys_prompt(language):
       • Creation time: 10–20 days
       • Number of pages: 2 - 8
       • Number of languages: 1
-      • 10 products
       • Mobile-responsive design
       • Hosting setup
       • 1 month of free support/administration
@@ -95,7 +94,6 @@ def get_sys_prompt(language):
       • Creation time: 20–40 days
       • Number of pages: 2 – 10
       • Number of languages: 1
-      • 10 products
       • Mobile-responsive design
       • Hosting setup
       • 1 month of free support/administration
@@ -147,7 +145,6 @@ def get_sys_prompt(language):
     • Timp de realizare: 10–20 zile
     • Număr de pagini: 2–8
     • Număr de limbi: 1
-    • 10 produse incluse
     • Design responsive
     • Configurare hosting
     • 1 lună de suport/administrare gratuită
@@ -159,7 +156,6 @@ def get_sys_prompt(language):
     • Timp de realizare: 20–40 zile
     • Număr de pagini: 2–10
     • Număr de limbi: 1
-    • 10 produse incluse
     • Design responsive
     • Configurare hosting
     • 1 lună de suport/administrare gratuită
