@@ -82,7 +82,7 @@ def get_sys_prompt(language):
     - Corporate / Multi-page site: €400
       • Creation time: 10–20 days
       • Number of pages: 2 - 8
-      • Number of languages: 2
+      • Number of languages: 1
       • 10 products
       • Mobile-responsive design
       • Hosting setup
@@ -91,10 +91,10 @@ def get_sys_prompt(language):
       • Admin panel
       • Training
 
-    - E-commerce site: €700
+    - E-commerce site: €600
       • Creation time: 20–40 days
       • Number of pages: 2 – 10
-      • Number of languages: 2
+      • Number of languages: 1
       • 10 products
       • Mobile-responsive design
       • Hosting setup
@@ -108,8 +108,8 @@ def get_sys_prompt(language):
     - Extra dynamic page (e.g. contact form, blog): €35
     - Extra product: €0.40 (per language)
     - Extra language: 
-        • €15 per static page 
-        • €30 if the page has dyanmic text (besides products)
+        • €10 per static page 
+        • €20 if the page has dyanmic text (besides products)
     - Monthly support/administration: 
         • €50(Landing Page) 
         • €100(Multi-page and E-commerce)
@@ -146,7 +146,7 @@ def get_sys_prompt(language):
     - Site multi-page bazat pe conținut: 400 €
     • Timp de realizare: 10–20 zile
     • Număr de pagini: 2–8
-    • Număr de limbi: 2
+    • Număr de limbi: 1
     • 10 produse incluse
     • Design responsive
     • Configurare hosting
@@ -155,10 +155,10 @@ def get_sys_prompt(language):
     • Panou de administrare
     • Instruire
 
-    - Site e-commerce: 700 €
+    - Site e-commerce: 600 €
     • Timp de realizare: 20–40 zile
     • Număr de pagini: 2–10
-    • Număr de limbi: 2
+    • Număr de limbi: 1
     • 10 produse incluse
     • Design responsive
     • Configurare hosting
@@ -172,8 +172,8 @@ def get_sys_prompt(language):
     - Pagină dinamică suplimentară (ex: formular de contact, blog): €35
     - Produs suplimentar: €0.40 (per limbă)
     - Limbă suplimentară:
-        • €15 per pagină statică
-        • €30 dacă pagina conține text dinamic (în afara produselor)
+        • €10 per pagină statică
+        • €20 dacă pagina conține text dinamic (în afara produselor)
     - Suport/administrare lunară:
         • €50(Landing Page) 
         • €100(Multi-page și E-commerce)
